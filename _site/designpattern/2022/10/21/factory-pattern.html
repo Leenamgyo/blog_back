@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Programming, Coffee, etc." /></head>
+<style>@import url(/public/css/syntax/monokai.css);</style>
+  <title>Programming, Coffee, etc.</title>
+  <!-- <link href="/public/css/bootstrap.min.css" rel="stylesheet"> -->
+
+  <link href="/public/css/style.css" rel="stylesheet">
+  <body>
+  	<div class="container"> 
+		<div class="sidebar">
+			<div class="sidebar-item sidebar-header">
+	<div class='sidebar-brand'>
+		<a href="/about/">Programming, Coffee, etc.</a>
+	</div>
+	<p class="lead"></p></div>
+
+<div class="sidebar-item sidebar-nav">
+	<ul class="nav">
+      <li class="nav-title">Pages</li>
+	  <li>
+	  	<a class="nav-item" href="/">Articles</a>
+	  </li>
+	  
+	  
+	    
+	  
+	    
+	      
+	        <li>
+	        	<a class="nav-item" href="/about/">
+	            	About
+	            </a>
+	        </li>
+	      
+	    
+	  
+	    
+	      
+	    
+	  
+	    
+	  
+	    
+	  
+	</ul>
+</div>
+
+<div class="sidebar-item sidebar-nav">
+  	<ul class="nav">
+			<li class="nav-title">Categories</li>
+	    
+	    <li>
+	    	<a class="nav-item" href="/category/#sample">
+				<span class="name">sample</span>
+				<span class="badge">1</span>
+	    	</a>
+ 		</li>
+	    
+	    <li>
+	    	<a class="nav-item" href="/category/#update">
+				<span class="name">update</span>
+				<span class="badge">1</span>
+	    	</a>
+ 		</li>
+	    
+	    <li>
+	    	<a class="nav-item" href="/category/#designPattern">
+				<span class="name">designPattern</span>
+				<span class="badge">3</span>
+	    	</a>
+ 		</li>
+	    
+	  </nav>
+	</ul>
+</div>
+
+<div class="sidebar-item sidebar-footer">
+	<p>Powered by <a href="https://github.com/jekyll/jekyll">Jekyll</a></p>
+</div>
+		</div>
+		<div class="content">
+			<article class="post">
+	<header class="post-header">
+		<div class="post-title"> 
+			[DesignPattern] Factory Pattern
+		</div>
+		<time class="post-date dt-published" datetime="2022-10-21T13:00:00+09:00" itemprop="datePublished">2022/10/21
+		</time>		
+	</header>
+
+	<div class="post-content">
+		<h2 id="what-is-factory-pattern">What is Factory Pattern</h2>
+<p>팩토리 패턴(factory Pattern)은 자주 쓰이는 패턴을 엮어서 집필한 GoF의 ‘생성 패턴’ 중 하나입니다. 이 패턴은 객체를 생성하는 로직을 서브 클래스에 맡기면서 클래스 생성을 추상화시키고 프로그램 실행 중 다양한 클래스를 생성시킬 수 있습니다. 즉, 팩토리 패턴을 사용한다면 유사한 속성을 가진 다양한 객체의 생성을 컨트롤 할 수 있게 되면서 특정한 클래스와 직접적으로 결합하지 않으면서 느슨한 결합(loosed Coupling)을 만들 수 있습니다. 팩토리 패턴은 잘 알려진 2가지의 방법이 있는데 이는 메소드를 이용한 ‘팩토리 메소드 패턴’과 추상 클래스를 이용한 ‘추상 팩토리 패턴’입니다.</p>
+
+<h1 id="example-1-lets-make-the-factory-pattern-simply">Example 1: let’s make the Factory Pattern simply</h1>
+
+<h1 id="진짜-팩토리를-만들어보자">진짜 팩토리를 만들어보자</h1>
+
+<h1 id="의존성dependency-inversion-principle-역전-원칙">의존성(Dependency Inversion Principle) 역전 원칙</h1>
+<p>“구현보다는 인터페이스에 맞춰서 프로그래밍 한다.”</p>
+
+<h1 id="변경에-열려있는-코드를-바꿀-수-있는-팩토리-패턴">변경에 열려있는 코드를 바꿀 수 있는 팩토리 패턴</h1>
+<p>잘 알려진 팩토리 패턴은 메소드를 이용한 ‘팩토리 메소드 패턴’ 그리고 추상화(abstract)를 이용한 ‘추상 팩토리 패턴’이 있다.</p>
+
+<h2 id="subclass-vs-decorator-pattern">SubClass vs Decorator pattern</h2>
+<p>innos blog를 인용한다면 현재 만들어진 클래스를 이용해서 기능을 확장하는 방법은 ‘서브클래스’를 만들거나 ‘데코레이터 패턴’을 두 가지의 선택지가 있다고 한다. 두 가지 중 먼저, 서브클래스는 우리가 사용하는 상속에 대한 이야기이다. 이 블로그에서 확장 시, 서브클래스는 약간의 혼란을 준다고 한다. 위 블로그에서 혼란에 대한 이유를 명확하게 설명하지 않았는데, 내 생각에는 상위클래스의 종속성을 따라야하는 것 때문에 단순한 확장보다는 종속성을 고려한 설계를 고려해야 되기 때문이 아닐까 싶다. 하지만, 데코레이터는 상위 클래스의 종속성을 따르지 않아도 되며 확장 시, 소스의 변경을 요구하지 않기 때문에 서브클래스보다 자유로운 확장이 가능하다.</p>
+
+<h3 id="example-subclass">Example: SubClass</h3>
+<p>HeadFirstDesignPattern의 나온 예제를 한번 보자. 카페의 주문 시스템을 만들고 있다. 여기서는 서브클래스를 두 가지로 나누며, 한 가지의 경우는 각 재료마다 많은 클래스를 만드는 방식, 다른 한 가지의 경우는 모든 특성을 포함하는 하나의 클래스르 만들고 수퍼클래스에 대한 몇 가지의 서브클래스를 만들어 사용한다.</p>
+
+<p><strong>첫 번째 예제를 한번 확인해보자</strong>
+<img src="/assets/img/design-pattern/decorator_subclass.png" alt="subclass_1" /></p>
+
+<p>음료에 대해 가격을 오바라이드하여 클래스를 설계하는 형태다. 이러한 형태는 단순히 슈퍼클래스가 형태만 상속할 뿐 내부 로직의 대부분을 서브클래스가 맡는다. 이러한 경우는 새로운 메뉴 확장은 쉬우나 관리할 클래스가 많고 레시피를 코드화 시키지 않은 형태이기 때문에 변화에 대응하기 어렵다. 예를 들어, 우유가격 등 재료 가격이 바뀔 경우 각 서브 클래스를 접근해 가격을 일일이 바꾸어야 한다. 또한, 변경시 해당 클래스에 접근하여 일일이 레시피를 확인하여 대응해야 하는 등 관리에 대한 피로감이 늘어난다. 또한, cost()만으로 이루어진 코드는 레시피를 코드화 시키지 않아 따로 레시피를 문서화하여 명시적으로 관리해주어야 하는 문제가 있습니다.</p>
+
+<p><strong>두 번째 예제를 한번 확인해보자</strong>
+<img src="/assets/img/design-pattern/decorator_subclass_2.png" alt="subclass_2" /></p>
+
+<p>첫 번째 예제보다는 클래스의 개수가 적어지고 재료 가격을 미리 정해놓아 코드로 가격을 표시할 수 있다. 또한 Beverage라는 슈퍼 클래스에서 원재자 가격을 정할 수 있으니 가격 변화에 대한 대응이 쉽다. 다만, 이러한 방식은 사용하지 않는 재료를 서브클래스에서 조작할 수 있는 점은 현실세계의 메뉴판을 완전히 표현할 수 없다. 예를 들어, 아메리카노를 주문하는데 setMilk, setMocha 등 아메리카노와 무관한 함수 및 메소드도 아메리카노에서 사용 가능하다.</p>
+
+<h3 id="example-decorator">Example: Decorator</h3>
+
+<p><img src="/assets/img/design-pattern/decorator_decorator.png" alt="decorator" />  <br />
+이제는 데코레이턴 예제를 한번 보자. 데코레이터 패턴을 이용해 객체에 추가 요소를 동적으로 더할 수 있다. 재료가 추가/삭제가 되면 하나의 데코레이터를 덮거나 삭제를 하면되고 또한 다른 클래스에는 영향을 미치지 않는다. 그리고 각 원재료의 결합방식은 추가/삭제가 자유롭기 때문에 원재료의 관리가 자유롭다.</p>
+
+<p><img src="/assets/img/design-pattern/decorator_decorator_2.png" alt="decorator_2" />  <br />
+다음은 데코레이터에 대한 클래스 다이어 그램이다. 이 클래스 다이어그램을 보면 새로운 재료가 생성될 때마다 beverage 클래스가 composition하는 방식이다. 즉, 하나의 구현체는 각 클래스로 만들어진 재료를 입장할 때마다 가격과 description 멤버함수를 함쳐서 return 하게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">abstract</span> <span class="kd">class</span> <span class="nx">Beverage</span> <span class="p">{</span>
+    <span class="nb">String</span> <span class="nx">description</span><span class="p">;</span> 
+
+    <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getDescription</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">description</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">abstract</span> <span class="kr">public</span> <span class="nx">double</span> <span class="nx">cost</span><span class="p">();</span> 
+<span class="p">}</span>
+
+<span class="nx">abstract</span> <span class="kd">class</span> <span class="nx">CondimentDecorator</span> <span class="kd">extends</span> <span class="nx">Beverage</span> <span class="p">{</span>
+    <span class="nx">Beverage</span> <span class="nx">beverage</span><span class="p">;</span>
+    <span class="kr">public</span> <span class="nx">abstract</span> <span class="nb">String</span> <span class="nx">getDescription</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nx">Espresso</span> <span class="kd">extends</span> <span class="nx">Beverage</span> <span class="p">{</span>
+
+    <span class="kr">public</span> <span class="nx">Espresso</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">description</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">에스프레소</span><span class="dl">"</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kr">public</span> <span class="nx">double</span> <span class="nx">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mf">1.99</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nx">HouseBlend</span> <span class="kd">extends</span> <span class="nx">Beverage</span> <span class="p">{</span>
+    <span class="kr">public</span> <span class="nx">HouseBlend</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">description</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">하우스 블렌드 커피</span><span class="dl">"</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kr">public</span> <span class="nx">double</span> <span class="nx">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">.</span><span class="mi">89</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nx">DarkRoast</span> <span class="kd">extends</span> <span class="nx">Beverage</span> <span class="p">{</span>
+    <span class="kr">public</span> <span class="nx">DarkRoast</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">description</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">하우스 블렌드 커피</span><span class="dl">"</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kr">public</span> <span class="nx">double</span> <span class="nx">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">.</span><span class="mi">79</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nx">Mocha</span> <span class="kd">extends</span> <span class="nx">CondimentDecorator</span> <span class="p">{</span>
+    
+    <span class="kr">public</span> <span class="nx">Mocha</span><span class="p">(</span><span class="nx">Beverage</span> <span class="nx">beverage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">beverage</span> <span class="o">=</span> <span class="nx">beverage</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getDescription</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">getDescription</span><span class="p">()</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">, 모카</span><span class="dl">"</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kr">public</span> <span class="nx">double</span> <span class="nx">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">cost</span><span class="p">()</span> <span class="o">+</span> <span class="p">.</span><span class="mi">20</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nx">Soy</span> <span class="kd">extends</span> <span class="nx">CondimentDecorator</span> <span class="p">{</span>
+    
+    <span class="kr">public</span> <span class="nx">Soy</span><span class="p">(</span><span class="nx">Beverage</span> <span class="nx">beverage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">beverage</span> <span class="o">=</span> <span class="nx">beverage</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="nd">Override</span>
+    <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getDescription</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="k">return</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">getDescription</span><span class="p">()</span><span class="o">+</span> <span class="dl">"</span><span class="s2">, 두유</span><span class="dl">"</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="nd">Override</span>
+    <span class="kr">public</span> <span class="nx">double</span> <span class="nx">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="k">return</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">cost</span><span class="p">()</span> <span class="o">+</span> <span class="p">.</span><span class="mi">31</span><span class="p">;</span>
+    <span class="p">}</span> 
+
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nx">Whip</span> <span class="kd">extends</span> <span class="nx">CondimentDecorator</span> <span class="p">{</span> 
+    <span class="kr">public</span> <span class="nx">Whip</span><span class="p">(</span><span class="nx">Beverage</span> <span class="nx">beverage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">beverage</span> <span class="o">=</span> <span class="nx">beverage</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="nd">Override</span>
+    <span class="kr">public</span> <span class="nb">String</span> <span class="nx">getDescription</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="k">return</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">getDescription</span><span class="p">()</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">, 크림</span><span class="dl">"</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="nd">Override</span>
+    <span class="kr">public</span> <span class="nx">double</span> <span class="nx">cost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="k">return</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">cost</span><span class="p">()</span> <span class="o">+</span> <span class="p">.</span><span class="mi">30</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    
+<span class="p">}</span>
+
+<span class="kr">public</span> <span class="kd">class</span> <span class="nx">StarbuzzCoffee</span> <span class="p">{</span>
+    <span class="kr">public</span> <span class="kd">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">)</span> <span class="nx">throws</span> <span class="nx">Exception</span> <span class="p">{</span>
+        <span class="nx">Beverage</span> <span class="nx">beverage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Espresso</span><span class="p">();</span>
+        <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="nx">beverage</span><span class="p">.</span><span class="nx">getDescription</span><span class="p">()</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> $</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">cost</span><span class="p">());</span>
+    
+        <span class="nx">Beverage</span> <span class="nx">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DarkRoast</span><span class="p">();</span>
+        <span class="nx">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mocha</span><span class="p">(</span><span class="nx">beverage2</span><span class="p">);</span>
+        <span class="nx">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mocha</span><span class="p">(</span><span class="nx">beverage2</span><span class="p">);</span>
+        <span class="nx">beverage2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Whip</span><span class="p">(</span><span class="nx">beverage2</span><span class="p">);</span>
+        <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span>
+            <span class="nx">beverage2</span><span class="p">.</span><span class="nx">getDescription</span><span class="p">()</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> $</span><span class="dl">"</span><span class="o">+</span> <span class="nx">beverage2</span><span class="p">.</span><span class="nx">cost</span><span class="p">()</span>
+        <span class="p">);</span>
+
+        <span class="nx">Beverage</span> <span class="nx">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HouseBlend</span><span class="p">();</span>
+        <span class="nx">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Soy</span><span class="p">(</span><span class="nx">beverage3</span><span class="p">);</span>
+        <span class="nx">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mocha</span><span class="p">(</span><span class="nx">beverage3</span><span class="p">);</span>
+        <span class="nx">beverage3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Whip</span><span class="p">(</span><span class="nx">beverage3</span><span class="p">);</span>
+        <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="nx">beverage3</span><span class="p">.</span><span class="nx">getDescription</span><span class="p">()</span>
+            <span class="o">+</span> <span class="dl">"</span><span class="s2"> $</span><span class="dl">"</span><span class="o">+</span> <span class="nx">beverage3</span><span class="p">.</span><span class="nx">cost</span><span class="p">()</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="the-relationship-between-the-decorator-pattern-and-ocpopen-closed-principle">The Relationship between the Decorator Pattern and OCP(Open Closed Principle)</h2>
+<p>유지보수와 확장이 쉬운 소프트웨어를 개발하는데 도움이 되는 원칙인 ‘객체 지향의 5원칙’이 있다. 5개의 원칙 중 한가지인 OCP의 원칙은 “클래스는 확장에는 열려 있어야 하지만 변경에는 닫혀있어야 한다는 것”이다. 이러한 데코레이터 패턴은 함수 확장시 내부 기능을 수정하지 않고 다른 기능을 접합하고 뗄 수 있는 특성은 확장에 열려있다는 것이며, 변경에 닫혀있다는 소리가 된다. 즉, 데코레이터 패턴은 OCP 원칙과 잘 부합하며 이는 유지보수 확장이 쉬운 소프트웨어를 개발하는데 장점이 될 수 있다.</p>
+
+<h2 id="well-known-example-java-io-class">Well-known example: Java I/O class</h2>
+<p><img src="/assets/img/design-pattern/decorator_java_io.png" alt="java_decorator" /></p>
+
+<p>Java I/O 클래스는 Decorator class를 이용해 만들어진 대표적인 예제이다.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">import</span> <span class="nx">java</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">BufferedInputStream</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">java</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">FileInputStream</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">java</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">FilterInputStream</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">java</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">IOException</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">java</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">InputStream</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">LowerCaseInputStream</span> <span class="kd">extends</span> <span class="nx">FilterInputStream</span> <span class="p">{</span>
+
+    <span class="kr">public</span> <span class="nx">LowerCaseInputStream</span><span class="p">(</span><span class="nx">InputStream</span> <span class="k">in</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">(</span><span class="k">in</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="kr">public</span> <span class="nx">int</span> <span class="nx">read</span><span class="p">()</span> <span class="nx">throws</span> <span class="nx">IOException</span> <span class="p">{</span> 
+        <span class="nx">int</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">in</span><span class="p">.</span><span class="nx">read</span><span class="p">();</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nx">c</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">?</span> <span class="nx">c</span> <span class="p">:</span> <span class="nx">Character</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">((</span><span class="nx">char</span><span class="p">)</span><span class="nx">c</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="kr">public</span> <span class="nx">int</span> <span class="nx">read</span><span class="p">(</span><span class="nx">byte</span><span class="p">[]</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">int</span> <span class="nx">offset</span><span class="p">,</span> <span class="nx">int</span> <span class="nx">len</span><span class="p">)</span> <span class="nx">throws</span> <span class="nx">IOException</span> <span class="p">{</span>
+        <span class="nx">int</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">in</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="nx">offset</span><span class="p">,</span> <span class="nx">len</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nx">int</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">offset</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">offset</span><span class="o">+</span><span class="nx">result</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">b</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nx">byte</span><span class="p">)</span><span class="nx">Character</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">((</span><span class="nx">char</span><span class="p">)</span><span class="nx">b</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+<span class="kr">public</span> <span class="kd">class</span> <span class="nx">JavaIOExample</span> <span class="p">{</span>
+    <span class="kr">public</span> <span class="kd">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">int</span> <span class="nx">c</span><span class="p">;</span>
+        
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="nx">InputStream</span> <span class="k">in</span> <span class="o">=</span> 
+                <span class="k">new</span> <span class="nx">LowerCaseInputStream</span><span class="p">(</span>
+                    <span class="k">new</span> <span class="nx">BufferedInputStream</span><span class="p">(</span>
+                        <span class="k">new</span> <span class="nx">FileInputStream</span><span class="p">(</span><span class="dl">"</span><span class="s2">text.txt</span><span class="dl">"</span><span class="p">)));</span>
+
+            <span class="k">while</span> <span class="p">((</span><span class="nx">c</span> <span class="o">=</span> <span class="k">in</span><span class="p">.</span><span class="nx">read</span><span class="p">())</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">((</span><span class="nx">char</span><span class="p">)</span><span class="nx">c</span><span class="p">);</span>
+            <span class="p">}</span>
+            
+            <span class="k">in</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">IOException</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">e</span><span class="p">.</span><span class="nx">printStackTrace</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="결론">결론</h2>
+<p>기존의 소스를 변경하지 않고 얹히는 듯한 이 데코레이터 디자인 패턴을 이용한다면 객체 지향 5원칙 중 하나인 OCP에 충실한 유연한 디자인을 만들 수 있으나 자잘한 클래스가 많이 추가되어 소스 이해의 난이도가 증가할 수도 있다. 또한 특정 클라이언트에 의존해야하는 경우에도 데코레이터를 오용하는 경우는 피해야 한다. 또한 IONOS 블로그에 따르면 디버깅이 어려워진다는 단점이 있다.</p>
+
+<h2 id="참조">참조</h2>
+<ul>
+  <li>https://www.ionos.com/digitalguide/websites/web-development/what-is-the-decorator-pattern</li>
+  <li>Head First Design Pattern</li>
+</ul>
+
+	</div>
+</article>
+		</div>
+	</div>
+  </body>
+</html>
